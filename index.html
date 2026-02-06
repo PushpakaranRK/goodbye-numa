@@ -1,58 +1,160 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Goodbye Numa</title>
+
 <style>
-  body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,Segoe UI,Arial;color:#fff;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);padding:18px}
-  .card{width:min(820px,94vw);background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.14);
-    border-radius:24px;padding:24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.55)}
-  h1{margin:0 0 10px;font-size:clamp(30px,5vw,46px)}
-  p{margin:10px 0;font-size:clamp(16px,2.2vw,19px);line-height:1.55;opacity:.95}
-  #count{font-size:44px;font-weight:900;margin:12px 0}
-  button{padding:12px 16px;border:none;border-radius:14px;font-weight:900;cursor:pointer;
-    background:linear-gradient(90deg,#ffdd00,#ff6fd8)}
-  button:disabled{opacity:.45;cursor:not-allowed}
-  @keyframes shake{0%{transform:translate(0)}20%{transform:translate(-5px)}
-    40%{transform:translate(5px)}60%{transform:translate(-4px)}
-    80%{transform:translate(4px)}100%{transform:translate(0)}}
-  .shake{animation:shake .5s}
-  .footer{margin-top:14px;font-size:14px;opacity:.85}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:system-ui,Segoe UI,Arial;
+  color:#fff;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  padding:20px;
+}
+
+.card{
+  max-width:900px;
+  width:100%;
+  background:rgba(255,255,255,.12);
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
+}
+
+h1{
+  font-size:42px;
+  font-weight:900;
+  margin:0 0 6px;
+}
+
+.subtitle{
+  font-size:16px;
+  font-weight:600;
+  opacity:.9;
+  margin-bottom:16px;
+}
+
+#count{
+  font-size:44px;
+  font-weight:900;
+  margin:14px 0;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ffdd00,#ff6fd8);
+}
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+@keyframes shake{
+  0%{transform:translate(0)}
+  20%{transform:translate(-6px)}
+  40%{transform:translate(6px)}
+  60%{transform:translate(-4px)}
+  80%{transform:translate(4px)}
+  100%{transform:translate(0)}
+}
+.shake{animation:shake .5s}
+
+#surprise{
+  display:none;
+  margin-top:20px;
+}
+
+/* IMAGE — correct orientation, no crop */
+#photo{
+  display:block;
+  margin:0 auto;
+  max-height:66vh;          /* ~2/3 of screen height */
+  max-width:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;       /* NO CROP */
+  image-orientation: from-image; /* ✅ RESPECT EXIF ROTATION */
+  border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.6);
+  filter:blur(14px);
+  transition:.4s;
+  cursor:pointer;
+}
+
+#photo.reveal{
+  filter:blur(0);
+}
+
+.footer{
+  margin-top:16px;
+  font-size:14px;
+  font-weight:600;
+  opacity:.9;
+}
 </style>
 </head>
+
 <body>
-  <div class="card" id="card">
-    <h1>👋 Goodbye Numa</h1>
-    <p>Have a nice one.<br>We all miss you so much that now there’s <b>absolutely no one</b> left to irritate me 🤣🤣🤣</p>
 
-    <div id="count">3</div>
-    <button id="bait" disabled>🚫 DO NOT CLICK</button>
+<div class="card" id="card">
 
-    <div class="footer">From Karan 😂 — your favourite victim</div>
-  </div>
+<h1>📸 Surprise Image</h1>
+<div class="subtitle">Tap the image to unblur (tap again to blur)</div>
+
+<div id="count">3</div>
+
+<button id="bait" disabled>🚫 DO NOT CLICK</button>
+
+<div id="surprise">
+  <!-- ✅ CORRECT FILENAME -->
+  <img id="photo" src="numa-surprise.jpg" alt="Surprise photo">
+</div>
+
+<div class="footer">
+Proof that you’ll be missed more than you think — <strong>From Karan 😂</strong>
+</div>
+
+</div>
 
 <script>
-  const card = document.getElementById("card");
-  const count = document.getElementById("count");
-  const bait  = document.getElementById("bait");
+const card=document.getElementById('card');
+const count=document.getElementById('count');
+const bait=document.getElementById('bait');
+const surprise=document.getElementById('surprise');
+const photo=document.getElementById('photo');
 
-  let c = 3;
-  const t = setInterval(() => {
-    c--;
-    count.textContent = (c > 0) ? String(c) : "GO!";
-    if (c <= 0) {
-      clearInterval(t);
-      bait.disabled = false;
-      card.classList.add("shake");
-    }
-  }, 900);
+let c=3;
+const timer=setInterval(()=>{
+  c--;
+  count.textContent = c>0 ? c : "GO!";
+  if(c<=0){
+    clearInterval(timer);
+    bait.disabled=false;
+    card.classList.add('shake');
+  }
+},900);
 
-  bait.addEventListener("click", () => {
-    // Separate page:
-    window.location.href = "./reveal.html";
-  });
+bait.onclick=()=>{
+  surprise.style.display="block";
+  photo.classList.remove('reveal'); // start blurred
+  card.classList.add('shake');
+};
+
+photo.onclick=()=>{
+  photo.classList.toggle('reveal');
+};
 </script>
+
 </body>
 </html>
