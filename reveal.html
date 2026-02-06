@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The Surprise</title>
+<title>Surprise</title>
 <style>
   body{margin:0;min-height:100vh;display:grid;place-items:center;font-family:system-ui,Segoe UI,Arial;
     background:#070b18;color:#fff;padding:18px}
   .wrap{width:min(1000px,96vw);text-align:center}
+  h1{margin:0 0 10px;font-size:clamp(26px,4vw,40px)}
+  p{margin:8px 0;opacity:.9}
+
+  /* Landscape stage */
   .stage{
     width:100%;
     aspect-ratio:16/9;
@@ -20,17 +24,20 @@
     overflow:hidden;
     margin:14px auto;
   }
+
+  /* No crop: contain. Rotated to landscape */
   img{
     max-width:100%;
     max-height:100%;
     width:auto;height:auto;
-    object-fit:contain;      /* NO CROP */
-    transform: rotate(90deg);/* LANDSCAPE */
+    object-fit:contain;
+    transform: rotate(90deg);
     filter: blur(14px) brightness(.92);
     transition: .35s ease;
     cursor:pointer;
   }
   img.reveal{filter: blur(0) brightness(1)}
+
   button{
     padding:12px 16px;border-radius:14px;border:1px solid rgba(255,255,255,.18);
     background:transparent;color:#fff;font-weight:800;cursor:pointer
@@ -43,17 +50,18 @@
     <p>Tap the image to unblur (tap again to blur)</p>
 
     <div class="stage">
-      <!-- MUST match filename exactly -->
-      <img id="pic" src="numa-suprise.jpg" alt="Surprise photo">
+      <!-- IMPORTANT: must match your repo filename EXACTLY -->
+      <img id="pic" src="./numa-suprise.jpg" alt="Surprise photo">
     </div>
 
-    <p>Proof that you’ll be missed more than you think 😌 — <b>From Karan 😂</b></p>
-    <button onclick="window.location.href='index.html'">← Go back</button>
+    <p>— From Karan 😂</p>
+    <button onclick="window.location.href='./'">← Back</button>
   </div>
 
 <script>
-  const pic = document.getElementById("pic");
-  pic.addEventListener("click", () => pic.classList.toggle("reveal"));
+  document.getElementById("pic").addEventListener("click", (e) => {
+    e.target.classList.toggle("reveal");
+  });
 </script>
 </body>
 </html>
