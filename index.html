@@ -1,173 +1,56 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Goodbye Numa</title>
-
-<style>
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-family:system-ui, Segoe UI, Arial;
-  color:#fff;
-  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  padding:20px;
-}
-
-.card{
-  width:min(900px, 94vw);
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:24px;
-  padding:24px;
-  text-align:center;
-  box-shadow:0 20px 60px rgba(0,0,0,.55);
-}
-
-h1{
-  margin:0 0 10px;
-  font-size:clamp(30px, 5vw, 46px);
-  font-weight:900;
-}
-
-p{
-  margin:10px 0;
-  font-size:clamp(16px, 2.1vw, 19px);
-  line-height:1.6;
-}
-
-.countWrap{
-  margin:14px auto 0;
-  max-width:520px;
-  padding:14px;
-  border-radius:18px;
-  background:rgba(0,0,0,.22);
-}
-
-#countNum{
-  font-size:44px;
-  font-weight:900;
-  margin-top:6px;
-}
-
-button{
-  padding:12px 16px;
-  border:none;
-  border-radius:14px;
-  font-weight:900;
-  cursor:pointer;
-  background:linear-gradient(90deg,#ffdd00,#ff6fd8);
-}
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-/* Shake */
-@keyframes shake{
-  0%{transform:translate(0)}
-  20%{transform:translate(-5px)}
-  40%{transform:translate(5px)}
-  60%{transform:translate(-4px)}
-  80%{transform:translate(4px)}
-  100%{transform:translate(0)}
-}
-.shake{animation:shake .5s}
-
-/* Surprise section */
-#surprise{
-  display:none;
-  margin-top:18px;
-}
-
-#photo{
-  display:block;
-  margin:10px auto 0;
-  max-height:66vh;
-  max-width:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
-  border-radius:16px;
-  box-shadow:0 12px 30px rgba(0,0,0,.6);
-  filter:blur(14px);
-  transition:.35s;
-  cursor:pointer;
-}
-
-#photo.reveal{
-  filter:blur(0);
-}
-
-.footer{
-  margin-top:16px;
-  font-size:14px;
-  font-weight:600;
-  opacity:.9;
-}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Goodbye Numa Link</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-<div class="card" id="card">
+  <main class="wrap">
+    <!-- FIRST PAGE (Clickbait) -->
+    <section id="stageStart" class="card">
+      <h1 class="title">👋 Goodbye Numa</h1>
 
-  <!-- ✅ FIRST PAGE TEXT (FIXED) -->
-  <h1>👋 Goodbye Numa, have a nice one</h1>
-  <p>
-    We all miss you so there’s no one around to irritate me anymore 🤣🤣🤣
-  </p>
+      <p class="sub">
+        Have a nice one.<br/>
+        We all miss you so much that now there’s absolutely no one left to irritate me anymore 🤣🤣🤣
+      </p>
 
-  <div class="countWrap">
-    <div id="countNum">3</div>
-  </div>
+      <button id="btnGo" class="btn">
+        GO!
+      </button>
 
-  <button id="bait" disabled>🚫 DO NOT CLICK</button>
+      <p class="footer">From Karan 💖 — to your favourite “vdfm”</p>
+    </section>
 
-  <!-- 🔥 IMAGE ONLY APPEARS AFTER CLICK -->
-  <div id="surprise">
-    <p><strong>📸 Surprise image</strong></p>
-    <p>Tap the image to unblur (tap again to blur)</p>
+    <!-- COUNTDOWN PAGE -->
+    <section id="stageCountdown" class="card hidden" aria-live="polite">
+      <h2 class="title small">🚨 Don’t click too fast</h2>
+      <p class="sub">Preparing emotional damage…</p>
+      <div id="countNum" class="count">3</div>
+      <p class="tiny">Tip: wait till it finishes 😌</p>
+    </section>
 
-    <img id="photo" src="numa-surprise.jpg" alt="Surprise photo">
+    <!-- REVEAL PAGE -->
+    <section id="stageReveal" class="card hidden">
+      <h2 class="title small">📸 Surprise Image</h2>
+      <p class="sub">Tap the image to enable it (tap again to hide)</p>
 
-    <p>Proof that you’ll be missed more than you think 😌</p>
-  </div>
+      <div class="imgShell">
+        <img
+          id="surpriseImg"
+          src="./numa-surprise.jpg"
+          alt="Surprise"
+          loading="eager"
+        />
+      </div>
 
-  <div class="footer">— From Karan 😂</div>
+      <button id="btnReset" class="btn ghost">Reset</button>
+      <p class="tiny">Proof that you’ll be missed more than you think 😌</p>
+    </section>
+  </main>
 
-</div>
-
-<script>
-const card=document.getElementById('card');
-const count=document.getElementById('countNum');
-const bait=document.getElementById('bait');
-const surprise=document.getElementById('surprise');
-const photo=document.getElementById('photo');
-
-let c=3;
-const timer=setInterval(()=>{
-  c--;
-  count.textContent = c>0 ? c : "GO!";
-  if(c<=0){
-    clearInterval(timer);
-    bait.disabled=false;
-    card.classList.add('shake');
-  }
-},900);
-
-bait.onclick=()=>{
-  surprise.style.display="block";
-  photo.classList.remove('reveal');
-  card.classList.add('shake');
-};
-
-photo.onclick=()=>{
-  photo.classList.toggle('reveal');
-};
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
