@@ -1,0 +1,105 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+.wrap {
+  width: min(900px, 94vw);
+  padding: 22px 0;
+}
+
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.hidden { display: none; }
+
+.title {
+  margin: 0 0 10px;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.title.small { font-size: 34px; }
+
+.sub {
+  margin: 0 0 18px;
+  font-size: 18px;
+  line-height: 1.5;
+  opacity: 0.95;
+}
+
+.footer, .tiny {
+  margin: 14px 0 0;
+  opacity: 0.75;
+  font-size: 14px;
+}
+
+.btn {
+  border: 0;
+  cursor: pointer;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 800;
+  background: #facc15;
+  color: #111827;
+}
+
+.btn.ghost {
+  background: transparent;
+  color: #e5e7eb;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.count {
+  font-size: 70px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.imgShell {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  margin-top: 14px;
+}
+
+/* show image at 2/3 width, keep original shape, no crop */
+#surpriseImg {
+  width: min(66vw, 720px);
+  max-width: 100%;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+  display: block;
+}
+
+/* screen shake effect */
+@keyframes shake {
+  0% { transform: translate(0,0) rotate(0deg); }
+  10% { transform: translate(-6px, 3px) rotate(-0.4deg); }
+  20% { transform: translate(7px, -4px) rotate(0.4deg); }
+  30% { transform: translate(-8px, -2px) rotate(-0.3deg); }
+  40% { transform: translate(6px, 5px) rotate(0.3deg); }
+  50% { transform: translate(-5px, 2px) rotate(-0.2deg); }
+  60% { transform: translate(7px, 1px) rotate(0.2deg); }
+  70% { transform: translate(-6px, -4px) rotate(-0.2deg); }
+  80% { transform: translate(5px, 3px) rotate(0.2deg); }
+  90% { transform: translate(-3px, -2px) rotate(-0.1deg); }
+  100% { transform: translate(0,0) rotate(0deg); }
+}
+.shake {
+  animation: shake 650ms ease-in-out;
+}
