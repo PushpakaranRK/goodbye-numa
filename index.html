@@ -6,246 +6,168 @@
 <title>Goodbye Numa</title>
 
 <style>
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-family:system-ui, Segoe UI, Arial;
-    color:#fff;
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    padding:20px;
-  }
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:system-ui, Segoe UI, Arial;
+  color:#fff;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  padding:20px;
+}
 
-  .card{
-    width:min(900px, 94vw);
-    background:rgba(255,255,255,.12);
-    border:1px solid rgba(255,255,255,.14);
-    border-radius:24px;
-    padding:24px;
-    text-align:center;
-    box-shadow:0 20px 60px rgba(0,0,0,.55);
-    backdrop-filter: blur(10px);
-  }
+.card{
+  width:min(900px, 94vw);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:24px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
+}
 
-  h1{
-    margin:0 0 10px;
-    font-size:clamp(30px, 5vw, 46px);
-    font-weight:900;
-    line-height:1.05;
-  }
+h1{
+  margin:0 0 10px;
+  font-size:clamp(30px, 5vw, 46px);
+  font-weight:900;
+}
 
-  p{
-    margin:10px 0;
-    font-size:clamp(16px, 2.1vw, 19px);
-    line-height:1.6;
-    opacity:.95;
-  }
+p{
+  margin:10px 0;
+  font-size:clamp(16px, 2.1vw, 19px);
+  line-height:1.6;
+}
 
-  .countWrap{
-    margin:14px auto 0;
-    max-width:520px;
-    padding:14px;
-    border-radius:18px;
-    background:rgba(0,0,0,.22);
-    border:1px solid rgba(255,255,255,.10);
-  }
+.countWrap{
+  margin:14px auto 0;
+  max-width:520px;
+  padding:14px;
+  border-radius:18px;
+  background:rgba(0,0,0,.22);
+}
 
-  #countText{
-    font-weight:800;
-    letter-spacing:.6px;
-    text-transform:uppercase;
-    opacity:.9;
-    font-size:13px;
-  }
+#countNum{
+  font-size:44px;
+  font-weight:900;
+  margin-top:6px;
+}
 
-  #countNum{
-    font-size:44px;
-    font-weight:900;
-    margin-top:6px;
-    text-shadow:0 10px 24px rgba(0,0,0,.55);
-  }
+button{
+  padding:12px 16px;
+  border:none;
+  border-radius:14px;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ffdd00,#ff6fd8);
+}
+button:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
 
-  .btnRow{
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    flex-wrap:wrap;
-    margin-top:14px;
-  }
+/* Shake */
+@keyframes shake{
+  0%{transform:translate(0)}
+  20%{transform:translate(-5px)}
+  40%{transform:translate(5px)}
+  60%{transform:translate(-4px)}
+  80%{transform:translate(4px)}
+  100%{transform:translate(0)}
+}
+.shake{animation:shake .5s}
 
-  button{
-    padding:12px 16px;
-    border:none;
-    border-radius:14px;
-    font-weight:900;
-    cursor:pointer;
-    background:linear-gradient(90deg,#ffdd00,#ff6fd8);
-  }
+/* Surprise section */
+#surprise{
+  display:none;
+  margin-top:18px;
+}
 
-  button:disabled{
-    opacity:.45;
-    cursor:not-allowed;
-  }
+#photo{
+  display:block;
+  margin:10px auto 0;
+  max-height:66vh;
+  max-width:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  border-radius:16px;
+  box-shadow:0 12px 30px rgba(0,0,0,.6);
+  filter:blur(14px);
+  transition:.35s;
+  cursor:pointer;
+}
 
-  button.secondary{
-    background:transparent;
-    color:#fff;
-    border:1px solid rgba(255,255,255,.18);
-    font-weight:800;
-  }
+#photo.reveal{
+  filter:blur(0);
+}
 
-  /* Screen shake */
-  @keyframes shake {
-    0%{transform:translate(0,0) rotate(0deg)}
-    20%{transform:translate(-5px,2px) rotate(-0.4deg)}
-    40%{transform:translate(5px,-2px) rotate(0.4deg)}
-    60%{transform:translate(-4px,-1px) rotate(-0.3deg)}
-    80%{transform:translate(4px,1px) rotate(0.3deg)}
-    100%{transform:translate(0,0) rotate(0deg)}
-  }
-  .shake{ animation: shake .55s ease-in-out; }
-
-  /* Surprise area */
-  #surprise{
-    display:none;
-    margin-top:18px;
-  }
-
-  .surTitle{
-    font-size:22px;
-    font-weight:900;
-    margin:6px 0 8px;
-  }
-
-  .hint{
-    font-size:14px;
-    opacity:.85;
-    margin:8px 0 10px;
-  }
-
-  /* Image: 2/3 screen height, no crop, no rotate */
-  #photo{
-    display:block;
-    margin:0 auto;
-    max-height:66vh;
-    max-width:100%;
-    width:auto;
-    height:auto;
-    object-fit:contain;      /* NO CROP */
-    border-radius:16px;
-    box-shadow:0 12px 30px rgba(0,0,0,.6);
-    border:1px solid rgba(255,255,255,.12);
-    filter: blur(14px) brightness(.92);
-    transition: filter .35s ease;
-    cursor:pointer;
-    background:rgba(0,0,0,.18);
-  }
-
-  #photo.reveal{
-    filter: blur(0px) brightness(1);
-  }
-
-  .footer{
-    margin-top:16px;
-    font-size:14px;
-    opacity:.9;
-    font-weight:600;
-  }
+.footer{
+  margin-top:16px;
+  font-size:14px;
+  font-weight:600;
+  opacity:.9;
+}
 </style>
 </head>
 
 <body>
-  <div class="card" id="card">
-    <h1>👋 Goodbye Numa — have a nice one!</h1>
+<div class="card" id="card">
 
-    <p>
-      We all miss you so there’s no one around to irritate me anymore 🤣🤣🤣
-    </p>
+  <!-- ✅ FIRST PAGE TEXT (FIXED) -->
+  <h1>👋 Goodbye Numa, have a nice one</h1>
+  <p>
+    We all miss you so there’s no one around to irritate me anymore 🤣🤣🤣
+  </p>
 
-    <div class="countWrap">
-      <div id="countText">Preparing the drama…</div>
-      <div id="countNum">3</div>
-    </div>
-
-    <div class="btnRow">
-      <button id="baitBtn" disabled>🚫 DO NOT CLICK (seriously)</button>
-      <button class="secondary" id="resetBtn">🔁 Reset</button>
-    </div>
-
-    <div id="surprise">
-      <div class="surTitle">📸 Surprise image</div>
-      <div class="hint">Tap the image to unblur (tap again to blur)</div>
-
-      <!-- IMPORTANT: must match your repo filename exactly -->
-      <img id="photo" src="numa-surprise.jpg" alt="Surprise photo">
-
-      <p style="margin-top:10px;">Proof that you’ll be missed more than you think 😌</p>
-    </div>
-
-    <div class="footer">— From Karan 😂</div>
+  <div class="countWrap">
+    <div id="countNum">3</div>
   </div>
 
+  <button id="bait" disabled>🚫 DO NOT CLICK</button>
+
+  <!-- 🔥 IMAGE ONLY APPEARS AFTER CLICK -->
+  <div id="surprise">
+    <p><strong>📸 Surprise image</strong></p>
+    <p>Tap the image to unblur (tap again to blur)</p>
+
+    <img id="photo" src="numa-surprise.jpg" alt="Surprise photo">
+
+    <p>Proof that you’ll be missed more than you think 😌</p>
+  </div>
+
+  <div class="footer">— From Karan 😂</div>
+
+</div>
+
 <script>
-  const card = document.getElementById("card");
-  const countNum = document.getElementById("countNum");
-  const countText = document.getElementById("countText");
-  const baitBtn = document.getElementById("baitBtn");
-  const resetBtn = document.getElementById("resetBtn");
-  const surprise = document.getElementById("surprise");
-  const photo = document.getElementById("photo");
+const card=document.getElementById('card');
+const count=document.getElementById('countNum');
+const bait=document.getElementById('bait');
+const surprise=document.getElementById('surprise');
+const photo=document.getElementById('photo');
 
-  let timer = null;
-
-  function shake(){
-    card.classList.remove("shake");
-    void card.offsetWidth; // restart animation
-    card.classList.add("shake");
+let c=3;
+const timer=setInterval(()=>{
+  c--;
+  count.textContent = c>0 ? c : "GO!";
+  if(c<=0){
+    clearInterval(timer);
+    bait.disabled=false;
+    card.classList.add('shake');
   }
+},900);
 
-  function startCountdown(){
-    let c = 3;
-    baitBtn.disabled = true;
-    countNum.textContent = "3";
-    countText.textContent = "Preparing the drama…";
+bait.onclick=()=>{
+  surprise.style.display="block";
+  photo.classList.remove('reveal');
+  card.classList.add('shake');
+};
 
-    if(timer) clearInterval(timer);
-    timer = setInterval(() => {
-      c--;
-      if(c > 0){
-        countNum.textContent = String(c);
-        if(c === 2) countText.textContent = "Scanning for Numa-level chaos…";
-        if(c === 1) countText.textContent = "Checking who will annoy me now…";
-      } else {
-        clearInterval(timer);
-        timer = null;
-        countNum.textContent = "GO!";
-        countText.textContent = "Now click the forbidden button 😈";
-        baitBtn.disabled = false;
-        shake();
-      }
-    }, 900);
-  }
-
-  baitBtn.addEventListener("click", () => {
-    surprise.style.display = "block";
-    photo.classList.remove("reveal"); // start blurred
-    shake(); // shake on reveal
-    surprise.scrollIntoView({behavior:"smooth", block:"center"});
-  });
-
-  resetBtn.addEventListener("click", () => {
-    surprise.style.display = "none";
-    photo.classList.remove("reveal");
-    startCountdown();
-  });
-
-  photo.addEventListener("click", () => {
-    photo.classList.toggle("reveal");
-  });
-
-  startCountdown();
+photo.onclick=()=>{
+  photo.classList.toggle('reveal');
+};
 </script>
 </body>
 </html>
